@@ -1,16 +1,131 @@
-class Product {
-    constructor(jsonProduct){
-        jsonProduct && Object.assign(this, jsonProduct)
-    }
+// Récuperer le produit via l'api fetch grâce à l'url de l'api et l'id du produit
+
+let params = new URLSearchParams(window.location.search);
+let productID = params.get("id");
+
+// Afficher le produit dans la page product.html
+fetch('http://localhost:3000/api/products/' + productID )
+.then(data =>data.json()) 
+.then (productID => {
+  let choiceElementName = choiceElementName + ` 
+<div class="item__img">
+<img src="${productID.imageUrl}" alt="${productID.altTxt}">
+</div>
+<div class="item__content">
+
+<div class="item__content__titlePrice">
+  <h1 id="title"> ${productID.name} </h1>
+  <p>Prix : <span id="price">${productID.price} </span>€</p>
+</div>
+
+<div class="item__content__description">
+  <p class="item__content__description__title">Description :</p>
+  <p id="description"> ${productID.description} </p>
+</div>
+
+<div class="item__content__settings">
+  <div class="item__content__settings__color">
+    <label for="color-select">Choisir une couleur :</label>
+    <select name="color-select" id="colors">
+        <option value="">--SVP, choisissez une couleur --</option>`
+      
+        //Début boucle`
+        for (let i = 0; i < productID.colors.length; i++){
+          let color = productID.colors[i];
+          console.log(color);
+          var choiceElementColor = choiceElementColor +
+        `<option value="${i}">${color[i]}</option>`
+        }//Fin boucle
+  
+    let choiceElementQuantity = choiceElementQuantity +
+    `</select>
+   </div>
+
+  <div class="item__content__settings__quantity">
+    <label for="itemQuantity">Nombre d'article(s) (1-100) :</label>
+    <input type="number" name="itemQuantity" min="1" max="100" value="0" id="quantity">
+  </div>
+</div>
+
+<div class="item__content__addButton">
+  <button id="addToCart">Ajouter au panier</button>
+</div>
+
+</div> `
+console.log (choiceElementQuantity);
+// data = document.querySelector(".item").innerHTML
+
 }
+})
 
-var str = "http://localhost:3000/";
+// for (let i = 0; i < 2; i++) {
+   // console.log(productID.colors[i]);
+  //} 
+  /*
+  for(let i = 0; longueur tableau; i++){
+    let color = productID.colors[i];
+    console.color(color);
+  }
+  productID.colors.map(color => console.log(color));
+  /*productID.colors.map(color, function(color){
+    console.log(color);
+  })*/
 
-var url = new URL(http://localhost:3000/);
 
-var search_params = new URLSearchParams(url.search); 
+//Envoyer au panier 
+/*
+let addToCartButton = document.querySelector("#addToCart")
+ addToCartButton.addEventListener("click", (event) =>{
+   event.preventDefault();
+    });
+*/
+// Les données qui doivent être enrégistés dans le panier
+let productSelection = {
+  _id:productID,
+  name: productID.name, 
+  price:productID.price
+ }
 
-if(search_params.has('product')) {
-  var name = search_params.get('product');
-  console.log(product)
+ console.log(productSelection);
+
+function addToCartButton() {
+  fetch('http://localhost:3000/api/products/' + productID )
+ /* .then(data =>data.json()) 
+  .then (addToCartButton => {
+  let addToCartButton = document.querySelector("#addToCart")
+ addToCartButton.addEventListener("click", (event) =>{
+   event.preventDefault();
+    });
+}*/
+ }
+ console.log(addToCartButton);
+/*
+let addToCartButton = document.querySelector("#addToCart")
+ addToCartButton.addEventListener(fetch('http://localhost:3000/api/products/' + productID ), event =>)*/
+
+
+ //Local Storage pour enregistrer le produit dans le panier
+ //attention tous le code dot être mis dans le addEventListener une fois qu'il fonctionne
+
+let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
+if (productInLocalStorage){
+  productInLocalStorage.push(productSelection);
+  localStorage.setItem("product",JSON.stringify(productInLocalStorage))
 }
+else{
+  productInLocalStorage = [];
+  productInLocalStorage.push(productSelection);
+  localStorage.setItem("product",JSON.stringify(productInLocalStorage))
+}
+console.log(productInLocalStorage);
+
+// chaine de caractere 1 - Boucle js -chaine de caractere 2. => dans le html
+let templateHtml1 = '<div>ect<.div>';
+
+for(let i = 0; colors.lenght; i++)
+  templatehtml3 += '<option>${colors[i]</option>'
+
+let templateHtml2 = '<span> </span>';
+
+let templateFinal = templateHtml1 + templateHtml3 +templateHtml2
+
