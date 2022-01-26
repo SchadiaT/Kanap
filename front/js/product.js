@@ -4,10 +4,10 @@ let params = new URLSearchParams(window.location.search);
 let productID = params.get("id");
 
 // Afficher le produit dans la page product.html
-fetch('http://localhost:3000/api/products/' + productID )
+fetch('http://localhost:3000/api/products/' + productID)
 .then(data =>data.json()) 
 .then (productID => {
-  let choiceElementName = choiceElementName + ` 
+let choiceElementName = ` 
 <div class="item__img">
 <img src="${productID.imageUrl}" alt="${productID.altTxt}">
 </div>
@@ -32,12 +32,11 @@ fetch('http://localhost:3000/api/products/' + productID )
         //Début boucle`
         for (let i = 0; i < productID.colors.length; i++){
           let color = productID.colors[i];
-          console.log(color);
           var choiceElementColor = choiceElementColor +
-        `<option value="${i}">${color[i]}</option>`
+        `<option value="${i}">${color}</option>`
         }//Fin boucle
   
-    let choiceElementQuantity = choiceElementQuantity +
+    let choiceElementQuantity =
     `</select>
    </div>
 
@@ -52,60 +51,33 @@ fetch('http://localhost:3000/api/products/' + productID )
 </div>
 
 </div> `
-console.log (choiceElementQuantity);
-// data = document.querySelector(".item").innerHTML
+let choiceAllElement = choiceElementName + choiceElementColor + choiceElementQuantity;
+document.querySelector(".item").innerHTML = choiceAllElement;
 
-}
-})
+let selectColor = document.querySelector("#colors");
+console.log(selectColor);
 
-// for (let i = 0; i < 2; i++) {
-   // console.log(productID.colors[i]);
-  //} 
-  /*
-  for(let i = 0; longueur tableau; i++){
-    let color = productID.colors[i];
-    console.color(color);
-  }
-  productID.colors.map(color => console.log(color));
-  /*productID.colors.map(color, function(color){
-    console.log(color);
-  })*/
-
-
+let productQuantity = document.querySelector("#quantity")
 //Envoyer au panier 
-/*
-let addToCartButton = document.querySelector("#addToCart")
- addToCartButton.addEventListener("click", (event) =>{
-   event.preventDefault();
-    });
-*/
-// Les données qui doivent être enrégistés dans le panier
-let productSelection = {
-  _id:productID,
-  name: productID.name, 
-  price:productID.price
- }
-
- console.log(productSelection);
-
-function addToCartButton() {
-  fetch('http://localhost:3000/api/products/' + productID )
- /* .then(data =>data.json()) 
-  .then (addToCartButton => {
-  let addToCartButton = document.querySelector("#addToCart")
- addToCartButton.addEventListener("click", (event) =>{
-   event.preventDefault();
-    });
-}*/
- }
- console.log(addToCartButton);
-/*
-let addToCartButton = document.querySelector("#addToCart")
- addToCartButton.addEventListener(fetch('http://localhost:3000/api/products/' + productID ), event =>)*/
+let addToCartButton = document.querySelector("#addToCart");
+addToCartButton.addEventListener("click", (event)=>{
+  event.preventDefault();
 
 
- //Local Storage pour enregistrer le produit dans le panier
- //attention tous le code dot être mis dans le addEventListener une fois qu'il fonctionne
+  // Les données qui doivent être enrégistés dans le panier
+  let productSelection = {
+    _id:productID,
+    name: productID.name, 
+    price: productID.price*productQuantity.value,
+    color: selectColor.value,
+    description: productID.description,
+    image: productID.imageUrl,
+    altTxt: productID.altTxt,
+    quantity: productQuantity.value,
+   }
+   console.log(productSelection);
+
+  //Local Storage pour enregistrer le produit dans le panier
 
 let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
 if (productInLocalStorage){
@@ -117,15 +89,9 @@ else{
   productInLocalStorage.push(productSelection);
   localStorage.setItem("product",JSON.stringify(productInLocalStorage))
 }
-console.log(productInLocalStorage);
+//console.log(productInLocalStorage);
 
-// chaine de caractere 1 - Boucle js -chaine de caractere 2. => dans le html
-let templateHtml1 = '<div>ect<.div>';
-
-for(let i = 0; colors.lenght; i++)
-  templatehtml3 += '<option>${colors[i]</option>'
-
-let templateHtml2 = '<span> </span>';
-
-let templateFinal = templateHtml1 + templateHtml3 +templateHtml2
-
+   });
+})
+;
+ 
