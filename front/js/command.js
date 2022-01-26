@@ -80,8 +80,6 @@ if (productInLocalStorage === null){
   let allCartElement = cartElement + cartTotalElement + fileInformationData;
   document.querySelector(".cart").innerHTML = allCartElement;
 
-  let _id = document.querySelectorAll(".cart__item");
-  console.log(_id);
  // écouter le bouton supprimer
  let deleteItemButton = document.querySelectorAll(".deleteItem");
  //console.log(deleteItemButton);
@@ -196,13 +194,13 @@ if (productInLocalStorage === null){
  // Objet rassemblant les produits sélectionnées et le formulaire validé
  const submitButton = {
   fileElement,
-  productInLocalStorage 
- }
+  productInLocalStorage: "_id"
+ };
  console.log ("submitButton", JSON.stringify(submitButton));
 
 
  // Envoyer le localstorage avec fetch en méthode post
- fetch('http://localhost:3000/api/products/order', {
+ let orderButton = fetch('http://localhost:3000/api/products/order', {
   method: "POST",
   body: JSON.stringify(submitButton),
   headers: {
@@ -217,6 +215,7 @@ if (productInLocalStorage === null){
  .catch((error) =>{
    console.error('Error', error);
  })
+ console.log(orderButton);
 }); 
 
   
