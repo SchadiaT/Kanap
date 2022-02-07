@@ -2,11 +2,10 @@
 
 // Récuperer l'id de la commande
 let orderId = localStorage.getItem("orderId");
-console.log('orderId: ${orderId}');
 
 //la structure HTML de la page 
 let confirmationValidation = ` <div class="confirmation">
-<p>Commande validée ! <br>Votre numéro de commande est : <span id="orderId"><!-- ${orderId}--></span></p>
+<p>Commande validée ! <br>Votre numéro de commande est : <span id="orderId"><!-- -->${orderId}</span></p>
 </div>
 
 </div> `

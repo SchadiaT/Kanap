@@ -8,6 +8,9 @@ fetch('http://localhost:3000/api/products/' + productID)
 .then(data =>data.json()) 
 .then (productID => {
 let choiceElementName = ` 
+<head>
+<title>${productID.name}</title>
+</head>
 <div class="item__img">
 <img src="${productID.imageUrl}" alt="${productID.altTxt}">
 </div>
@@ -53,8 +56,8 @@ let choiceElementName = `
 </div> `
 let choiceAllElement = choiceElementName + choiceElementColor + choiceElementQuantity;
 document.querySelector(".item").innerHTML = choiceAllElement;
-
-let selectColor = document.querySelector("#colors");
+let selectColor = document.querySelector("#colors")
+//let selectColor = document.getElementsByTagName("option");
 console.log(selectColor);
 
 let productQuantity = document.querySelector("#quantity")
@@ -66,7 +69,7 @@ addToCartButton.addEventListener("click", (event)=>{
 
   // Les données qui doivent être enrégistés dans le panier
   let productSelection = {
-    _id:productID,
+    _id: productID._id,
     name: productID.name, 
     price: productID.price*productQuantity.value,
     color: selectColor.value,
@@ -80,18 +83,30 @@ addToCartButton.addEventListener("click", (event)=>{
   //Local Storage pour enregistrer le produit dans le panier
 
 let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
+console.log(productInLocalStorage);
+// fonction fenetre de validation
+const popupValidation = () =>{
+  if(window.confirm (`${productID.name} a bien été ajouter au panier
+  Consulter le panier OK ou revenir à la page d'accueil ANNULER`)){
+    window.location.href = "cart.html";
+  }else{
+    window.location.href = "index.html";
+  }
+}
+//
 if (productInLocalStorage){
   productInLocalStorage.push(productSelection);
-  localStorage.setItem("product",JSON.stringify(productInLocalStorage))
+  localStorage.setItem("product",JSON.stringify(productInLocalStorage));
+  popupValidation();
 }
 else{
   productInLocalStorage = [];
   productInLocalStorage.push(productSelection);
   localStorage.setItem("product",JSON.stringify(productInLocalStorage))
-}
-//console.log(productInLocalStorage);
+  popupValidation();
+} 
 
-   });
+});
 })
 ;
  
