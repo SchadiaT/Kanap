@@ -5,9 +5,9 @@ let productID = params.get("id");
 
 // Afficher le produit dans la page product.html
 fetch('http://localhost:3000/api/products/' + productID)
-.then(data =>data.json()) 
-.then (productID => {
-let choiceElementName = ` 
+  .then(data => data.json())
+  .then(productID => {
+    let choiceElementName = ` 
 <div class="item__img">
 <img src="${productID.imageUrl}" alt="${productID.altTxt}">
 </div>
@@ -28,16 +28,16 @@ let choiceElementName = `
     <label for="color-select">Choisir une couleur :</label>
     <select name="color-select" id="colors">
         <option value="">--SVP, choisissez une couleur --</option>`
-      
-        //Début boucle`
-        for (let i = 0; i < productID.colors.length; i++){
-          let color = productID.colors[i];
-          var choiceElementColor = choiceElementColor +
+
+    //Début boucle`
+    for (let i = 0; i < productID.colors.length; i++) {
+      let color = productID.colors[i];
+      var choiceElementColor = choiceElementColor +
         `<option value="${i}">${color}</option>`
-        }//Fin boucle
-  
+    }//Fin boucle
+
     let choiceElementQuantity =
-    `</select>
+      `</select>
    </div>
 
   <div class="item__content__settings__quantity">
@@ -51,76 +51,75 @@ let choiceElementName = `
 </div>
 
 </div> `
-let choiceAllElement = choiceElementName + choiceElementColor + choiceElementQuantity;
-document.querySelector(".item").innerHTML = choiceAllElement;
+    let choiceAllElement = choiceElementName + choiceElementColor + choiceElementQuantity;
+    document.querySelector(".item").innerHTML = choiceAllElement;
 
-// choix de la couleur pour le panier
-let selectColor = document.querySelector("#colors");
-console.log(selectColor);
+    // choix de la couleur pour le panier
+    let selectColor = document.querySelector("#colors");
+    console.log(selectColor);
 
-//choix de la quantité
-let productQuantity = document.querySelector("#quantity")
-
-
-//Envoyer au panier 
-let addToCartButton = document.querySelector("#addToCart");
-addToCartButton.addEventListener("click", (event)=>{
-  event.preventDefault();
+    //choix de la quantité
+    let productQuantity = document.querySelector("#quantity")
 
 
-  // Les données qui doivent être enrégistés dans le panier
-  let productSelection = {
-    _id: productID._id,
-    name: productID.name, 
-    price: productID.price*productQuantity.value,
-    color: selectColor.value,
-    description: productID.description,
-    image: productID.imageUrl,
-    altTxt: productID.altTxt,
-    quantity: productQuantity.value,
-   }
-   console.log(productSelection);
-
-//Local Storage pour enregistrer le produit dans le panier
-
-let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
-console.log(productInLocalStorage);
+    //Envoyer au panier 
+    let addToCartButton = document.querySelector("#addToCart");
+    addToCartButton.addEventListener("click", (event) => {
+      event.preventDefault();
 
 
-// fonction fenetre de validation
-const popupValidation = () =>{
-  if(window.confirm (`${productID.name} a bien été ajouter au panier
-  Consulter le panier OK`)){
-    window.location.href = "cart.html";
-  }
-}
-//Importation dans le localStorage
-// si le panier contient déjà un produit 
-if (productInLocalStorage){
-  const sameProductClick = productInLocalStorage.find(
-    (el) => el._id === productID._id && el.color === selectColor.value);
-  //si le panier contient déjà le produit séléctionné
-  if (sameProductClick) {
-    let newProductQuantity = parseInt(productSelection.quantity) + parseInt(sameProductClick.quantity);
-    sameProductClick.quantity = newProductQuantity;
-    localStorage.setItem("product",JSON.stringify(productInLocalStorage));
-    popupValidation();
-  
-  } 
-  else{
-  productInLocalStorage.push(productSelection);
-  localStorage.setItem("product",JSON.stringify(productInLocalStorage));
-  popupValidation();
- }
- //si le panier est vide 
-}else{
-  productInLocalStorage = [];
-  productInLocalStorage.push(productSelection);
-  localStorage.setItem("product",JSON.stringify(productInLocalStorage))
-  popupValidation();
- } 
+      // Les données qui doivent être enrégistés dans le panier
+      let productSelection = {
+        _id: productID._id,
+        name: productID.name,
+        price: productID.price * productQuantity.value,
+        color: selectColor.value,
+        description: productID.description,
+        image: productID.imageUrl,
+        altTxt: productID.altTxt,
+        quantity: productQuantity.value,
+      }
+      console.log(productSelection);
 
-});
-})
-;
- 
+      //Local Storage pour enregistrer le produit dans le panier
+
+      let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
+      console.log(productInLocalStorage);
+
+
+      // fonction fenetre de validation
+      const popupValidation = () => {
+        if (window.confirm(`${productID.name} a bien été ajouter au panier
+  Consulter le panier OK`)) {
+          window.location.href = "cart.html";
+        }
+      }
+      //Importation dans le localStorage
+      // si le panier contient déjà un produit 
+      if (productInLocalStorage) {
+        const sameProductClick = productInLocalStorage.find(
+          (el) => el._id === productID._id && el.color === selectColor.value);
+        //si le panier contient déjà le produit séléctionné
+        if (sameProductClick) {
+          let newProductQuantity = parseInt(productSelection.quantity) + parseInt(sameProductClick.quantity);
+          sameProductClick.quantity = newProductQuantity;
+          localStorage.setItem("product", JSON.stringify(productInLocalStorage));
+          popupValidation();
+
+        }
+        else {
+          productInLocalStorage.push(productSelection);
+          localStorage.setItem("product", JSON.stringify(productInLocalStorage));
+          popupValidation();
+        }
+        //si le panier est vide 
+      } else {
+        productInLocalStorage = [];
+        productInLocalStorage.push(productSelection);
+        localStorage.setItem("product", JSON.stringify(productInLocalStorage))
+        popupValidation();
+      }
+
+    });
+  })
+  ;

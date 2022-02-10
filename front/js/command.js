@@ -5,16 +5,16 @@
 //transfer du produit de la page produit à la page panier
 let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
 console.log(productInLocalStorage);
-if (productInLocalStorage === null){
-    console.log("Votre panier est vide.");
-}else{
-    let cartElement = [];
-    for(j = 0; j < productInLocalStorage.length; j++){
-      /*const priceProduct =fetch('http://localhost:3000/api/products/' + productInLocalStorage[j]._id)
-      .then(data.json())
-      .then(data.price);*/
+if (productInLocalStorage === null) {
+  console.log("Votre panier est vide.");
+} else {
+  let cartElement = [];
+  for (j = 0; j < productInLocalStorage.length; j++) {
+    /*const priceProduct =fetch('http://localhost:3000/api/products/' + productInLocalStorage[j]._id)
+    .then(data.json())
+    .then(data.price);*/
 
-      cartElement = cartElement + `  <section class="cart">
+    cartElement = cartElement + `  <section class="cart">
         <section id="cart__items">
           <article class="cart__item" data-id="${productInLocalStorage[j]._id}" data-color="{product-color}">
             <div class="cart__item__img">
@@ -26,7 +26,7 @@ if (productInLocalStorage === null){
                 <p>${productInLocalStorage[j].color}</p>
 
     
-                <p>${productInLocalStorage[j].price*productInLocalStorage[j].quantity}</p>
+                <p>${productInLocalStorage[j].price * productInLocalStorage[j].quantity}</p>
               </div>
               <div class="cart__item__content__settings">
                 <div class="cart__item__content__settings__quantity">
@@ -40,22 +40,23 @@ if (productInLocalStorage === null){
             </div>
           </article> 
         </section>  `;
-    }
+  }
 
 
-      let cartTotal = []; 
-      let cartTotalPrice = [];
-      for (let k = 0; k < productInLocalStorage.length; k++){
-        cartTotal.push (productInLocalStorage[k].price*productInLocalStorage[k].quantity);
-        const addPreviousValueWithCurrentValue = (previousValue, currentValue) => previousValue + currentValue;
-        cartTotalPrice = cartTotal.reduce(addPreviousValueWithCurrentValue)};
-        cartTotalElement =
-       ` <div class="cart__price">
+  let cartTotal = [];
+  let cartTotalPrice = [];
+  for (let k = 0; k < productInLocalStorage.length; k++) {
+    cartTotal.push(productInLocalStorage[k].price * productInLocalStorage[k].quantity);
+    const addPreviousValueWithCurrentValue = (previousValue, currentValue) => previousValue + currentValue;
+    cartTotalPrice = cartTotal.reduce(addPreviousValueWithCurrentValue)
+  };
+  cartTotalElement =
+    ` <div class="cart__price">
       <p>Total (<span id="totalQuantity"><!-- 2 --></span> articles) : <span id="totalPrice">${cartTotalPrice}</span>€</p>
     </div>  `;
-    //console.log(cartTotalPrice);
-  
-    
+  //console.log(cartTotalPrice);
+
+
   let fileInformationData = ` <div class="cart__order">
   <form method="get" class="cart__order__form">
     <div class="cart__order__form__question">
@@ -97,9 +98,9 @@ if (productInLocalStorage === null){
   updateQuantityInCart();
 
   // Je récupere tout les noeux itemQuantity
-    // Pour chaque noeud
-        // je change la quantité de productInLocalStorage par la valeur de la quantité changé
-        // Je remets productInLocalStorage dans le localstorage
+  // Pour chaque noeud
+  // je change la quantité de productInLocalStorage par la valeur de la quantité changé
+  // Je remets productInLocalStorage dans le localstorage
   function updateQuantityInCart() {
     let quantitiesInput = document.querySelectorAll(".itemQuantity");
     quantitiesInput.forEach((quantityInput, i) => {
@@ -111,154 +112,154 @@ if (productInLocalStorage === null){
         window.location.href = "cart.html";
       });
     });
-   }
+  }
 
 
-   // récuper l'id des produits séléctionnées
+  // récuper l'id des produits séléctionnées
   let products = [];
-		for (product of productInLocalStorage) {
-			products.push(product._id);
-		}
-    console.log(products);
- // écouter le bouton supprimer
- let deleteItemButton = document.querySelectorAll(".deleteItem");
- //console.log(deleteItemButton);
- for (let l = 0; l < deleteItemButton.length; l++) {
-   deleteItemButton[l].addEventListener("click" , (event) =>{
-     event.preventDefault();
-
-     let suppressionButton = productInLocalStorage[l]._id;
-     console.log("suppressionButton");
-     //méthode filter
-     productInLocalStorage = productInLocalStorage.filter( el => el._id !== suppressionButton);
-     //console.log(productInLocalStorage);
-     localStorage.setItem("product",JSON.stringify(productInLocalStorage));
-     //recharger la page
-     window.location.href = "cart.html";
-   })
- }
- //Récuperter les valeurs du formulaires existant
- let cartForm = document.querySelector(".cart__order__form");
- cartForm.firstName.addEventListener('change', function() {
-  validFirstName(this);
- });
- const validFirstName = function (inputFirstName) {
-  let firstNameRegExp = new RegExp(`^[a-zA-Z,-]+$`,'g');
-  let testFirstName = firstNameRegExp.test(inputFirstName.value);
-  let firstNameErrorMsg = inputFirstName.nextElementSibling;
-  if (testFirstName) {
-    firstNameErrorMsg.innerHTML = ''
+  for (product of productInLocalStorage) {
+    products.push(product._id);
   }
-  else {
-    (firstNameErrorMsg.innerHTML = 'Prénom non valide')
-  }
- }
+  console.log(products);
+  // écouter le bouton supprimer
+  let deleteItemButton = document.querySelectorAll(".deleteItem");
+  //console.log(deleteItemButton);
+  for (let l = 0; l < deleteItemButton.length; l++) {
+    deleteItemButton[l].addEventListener("click", (event) => {
+      event.preventDefault();
 
- cartForm.lastName.addEventListener('change', function() {
-  validLasttName(this);
- });
- const validLasttName = function (inputLastName) {
-  let lastNameRegExp = new RegExp(`^[a-zA-Z,-]+$`,'g');
-  let testLastName = lastNameRegExp.test(inputLastName.value);
-  let lastNameErrorMsg = inputLastName.nextElementSibling;
-  if (testLastName) {
-    lastNameErrorMsg.innerHTML = ''
+      let suppressionButton = productInLocalStorage[l]._id;
+      console.log("suppressionButton");
+      //méthode filter
+      productInLocalStorage = productInLocalStorage.filter(el => el._id !== suppressionButton);
+      //console.log(productInLocalStorage);
+      localStorage.setItem("product", JSON.stringify(productInLocalStorage));
+      //recharger la page
+      window.location.href = "cart.html";
+    })
   }
-  else {
-    (lastNameErrorMsg.innerHTML = 'Nom non valide')
+  //Récuperter les valeurs du formulaires existant
+  let cartForm = document.querySelector(".cart__order__form");
+  cartForm.firstName.addEventListener('change', function () {
+    validFirstName(this);
+  });
+  const validFirstName = function (inputFirstName) {
+    let firstNameRegExp = new RegExp(`^[a-zA-Z,-]+$`, 'g');
+    let testFirstName = firstNameRegExp.test(inputFirstName.value);
+    let firstNameErrorMsg = inputFirstName.nextElementSibling;
+    if (testFirstName) {
+      firstNameErrorMsg.innerHTML = ''
+    }
+    else {
+      (firstNameErrorMsg.innerHTML = 'Prénom non valide')
+    }
   }
- }
 
- cartForm.address.addEventListener('change', function() {
-  validAddress(this);
- });
- const validAddress = function (inputAddress) {
-  let addressRegExp = new RegExp(`^[0-9]+[ |[a-zà-ú.,-]+$`,'g');
-  let testAddress = addressRegExp.test(inputAddress.value);
-  let addressErrorMsg = inputAddress.nextElementSibling;
-  if (testAddress) {
-    addressErrorMsg.innerHTML = ''
+  cartForm.lastName.addEventListener('change', function () {
+    validLasttName(this);
+  });
+  const validLasttName = function (inputLastName) {
+    let lastNameRegExp = new RegExp(`^[a-zA-Z,-]+$`, 'g');
+    let testLastName = lastNameRegExp.test(inputLastName.value);
+    let lastNameErrorMsg = inputLastName.nextElementSibling;
+    if (testLastName) {
+      lastNameErrorMsg.innerHTML = ''
+    }
+    else {
+      (lastNameErrorMsg.innerHTML = 'Nom non valide')
+    }
   }
-  else {
-    (addressErrorMsg.innerHTML = 'Adresse non valide')
+
+  cartForm.address.addEventListener('change', function () {
+    validAddress(this);
+  });
+  const validAddress = function (inputAddress) {
+    let addressRegExp = new RegExp(`^[0-9]+[ |[a-zà-ú.,-]+$`, 'g');
+    let testAddress = addressRegExp.test(inputAddress.value);
+    let addressErrorMsg = inputAddress.nextElementSibling;
+    if (testAddress) {
+      addressErrorMsg.innerHTML = ''
+    }
+    else {
+      (addressErrorMsg.innerHTML = 'Adresse non valide')
+    }
   }
- }
 
- cartForm.city.addEventListener('change', function() {
-  validCity(this);
- });
- const validCity = function (inputCity) {
-  let cityRegExp = new RegExp(`^[a-zA-Z,-]{3,}$`,'g');
-  let testCity = cityRegExp.test(inputCity.value);
-  let cityErrorMsg = inputCity.nextElementSibling;
-  if (testCity) {
-    cityErrorMsg.innerHTML = ''
+  cartForm.city.addEventListener('change', function () {
+    validCity(this);
+  });
+  const validCity = function (inputCity) {
+    let cityRegExp = new RegExp(`^[a-zA-Z,-]{3,}$`, 'g');
+    let testCity = cityRegExp.test(inputCity.value);
+    let cityErrorMsg = inputCity.nextElementSibling;
+    if (testCity) {
+      cityErrorMsg.innerHTML = ''
+    }
+    else {
+      (cityErrorMsg.innerHTML = 'Nom de la ville non valide')
+    }
   }
-  else {
-    (cityErrorMsg.innerHTML = 'Nom de la ville non valide')
+
+  cartForm.email.addEventListener('change', function () {
+    validEmail(this);
+  });
+  const validEmail = function (inputEmail) {
+    let emailRegExp = new RegExp(`^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$`, 'g');
+    let testEmail = emailRegExp.test(inputEmail.value);
+    let emailErrorMsg = inputEmail.nextElementSibling;
+    if (testEmail) {
+      emailErrorMsg.innerHTML = ''
+    }
+    else {
+      //emailErrorMsg.innerHTML = 'Email non valide'
+      (emailErrorMsg.innerHTML = 'Email non valide')
+    }
   }
- }
 
- cartForm.email.addEventListener('change', function() {
-  validEmail(this);
- });
- const validEmail = function (inputEmail) {
-  let emailRegExp = new RegExp(`^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$`,'g');
-  let testEmail = emailRegExp.test(inputEmail.value);
-  let emailErrorMsg = inputEmail.nextElementSibling;
-  if (testEmail) {
-    emailErrorMsg.innerHTML = ''
-  }
-  else {
-    //emailErrorMsg.innerHTML = 'Email non valide'
-    (emailErrorMsg.innerHTML = 'Email non valide')
-  }
- }
+  //Rentrer les donner du Formulaire dans le localstorage 
 
- //Rentrer les donner du Formulaire dans le localstorage 
+  let sentFileButton = document.querySelector("#order")
+  sentFileButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    let contact = {
+      firstName: document.querySelector("#firstName").value,
+      lastName: document.querySelector("#lastName").value,
+      address: document.querySelector("#address").value,
+      city: document.querySelector("#city").value,
+      email: document.querySelector("#email").value
+    }
+    console.log(contact)
 
- let sentFileButton = document.querySelector("#order")
- sentFileButton.addEventListener("click", (event)=>{
- event.preventDefault();
- let contact = {
-  firstName: document.querySelector("#firstName").value,
-  lastName: document.querySelector("#lastName").value,
-  address: document.querySelector("#address").value,
-  city: document.querySelector("#city").value,
-  email: document.querySelector("#email").value
- }
- console.log(contact)
+    // Validation du formulaire pour le localstorage
+    localStorage.setItem("fileElement", JSON.stringify(contact));
 
- // Validation du formulaire pour le localstorage
- localStorage.setItem("fileElement", JSON.stringify(contact));
-
- // Objet rassemblant les produits sélectionnées et le formulaire validé
- const submitButton = {
-  contact,
-  products
- };
- console.log ("submitButton", JSON.stringify(submitButton));
+    // Objet rassemblant les produits sélectionnées et le formulaire validé
+    const submitButton = {
+      contact,
+      products
+    };
+    console.log("submitButton", JSON.stringify(submitButton));
 
 
- // Envoyer le localstorage avec fetch en méthode post
- let orderButton = fetch('http://localhost:3000/api/products/order', {
-  method: "POST",
-  body: JSON.stringify(submitButton),
-  headers: {
-    "Accept": "application/json",
-    "Content-Type": "application/json"
-  }
- })
- .then(response => response.json())
- .then(data => {
-   console.log('Success', data)
-   localStorage.setItem("orderId", data.orderId)
-   window.location = "confirmation.html";
- })
- .catch((error) =>{
-   console.error('Error', error)
- })
- console.log(orderButton);
-}); 
+    // Envoyer le localstorage avec fetch en méthode post
+    let orderButton = fetch('http://localhost:3000/api/products/order', {
+      method: "POST",
+      body: JSON.stringify(submitButton),
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success', data)
+        localStorage.setItem("orderId", data.orderId)
+        window.location = "confirmation.html";
+      })
+      .catch((error) => {
+        console.error('Error', error)
+      })
+    console.log(orderButton);
+  });
 
 };

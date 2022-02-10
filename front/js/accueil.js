@@ -1,24 +1,24 @@
 class Product {
-    constructor(jsonProduct){
+    constructor(jsonProduct) {
         jsonProduct && Object.assign(this, jsonProduct)
     }
 }
 
 fetch('http://localhost:3000/api/products/')
-.then(data => data.json())
-.then(jsonListProduct => {
-    for(let jsonProduct of jsonListProduct){
-        let product = new Product(jsonProduct);
-        document.querySelector('.items').innerHTML += ` <section class="items" id="items"> 
-                                                        <a href="./product.html?id=${product._id}"">  
+    .then(data => data.json())
+    .then(jsonListProduct => {
+        for (let jsonProduct of jsonListProduct) {
+            let product = new Product(jsonProduct);
+            document.querySelector('.items').innerHTML += ` <section class="items" id="items"> 
+                                                        <a href="./product.html?id=${product._id}">  
                                                         <article> 
                                                         <img src="${product.imageUrl}" alt="${product.altTxt}">
                                                         <h3 class="productName">${product.name}</h3>
                                                         <p class="productDescription">${product.description}</p>
                                                         </a> 
                                                         </section>`
-    }
-})
+        }
+    })
 let str = "http://127.0.0.1:5500/front/html/index.html?id=productID";
 let url = new URL(str);
 let param = url.searchParams.get("productID");
