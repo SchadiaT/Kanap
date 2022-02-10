@@ -26,7 +26,7 @@ if (productInLocalStorage === null){
                 <p>${productInLocalStorage[j].color}</p>
 
     
-                <p>${productInLocalStorage[j].price}</p>
+                <p>${productInLocalStorage[j].price*productInLocalStorage[j].quantity}</p>
               </div>
               <div class="cart__item__content__settings">
                 <div class="cart__item__content__settings__quantity">
@@ -41,17 +41,21 @@ if (productInLocalStorage === null){
           </article> 
         </section>  `;
     }
-    let cartTotal = []; 
-    let cartTotalPrice = [];
-    for (let k = 0; k < productInLocalStorage.length; k++){
-      cartTotal.push (productInLocalStorage[k].price);
-      const addPreviousValueWithCurrentValue = (previousValue, currentValue) => previousValue + currentValue;
-      cartTotalPrice = cartTotal.reduce(addPreviousValueWithCurrentValue);
-      cartTotalElement =
-     ` <div class="cart__price">
-    <p>Total (<span id="totalQuantity"><!-- 2 --></span> articles) : <span id="totalPrice">${cartTotalPrice}</span>€</p>
-  </div>  `;}
-  //console.log(cartTotalPrice);
+
+
+      let cartTotal = []; 
+      let cartTotalPrice = [];
+      for (let k = 0; k < productInLocalStorage.length; k++){
+        cartTotal.push (productInLocalStorage[k].price*productInLocalStorage[k].quantity);
+        const addPreviousValueWithCurrentValue = (previousValue, currentValue) => previousValue + currentValue;
+        cartTotalPrice = cartTotal.reduce(addPreviousValueWithCurrentValue)};
+        cartTotalElement =
+       ` <div class="cart__price">
+      <p>Total (<span id="totalQuantity"><!-- 2 --></span> articles) : <span id="totalPrice">${cartTotalPrice}</span>€</p>
+    </div>  `;
+    //console.log(cartTotalPrice);
+  
+    
   let fileInformationData = ` <div class="cart__order">
   <form method="get" class="cart__order__form">
     <div class="cart__order__form__question">
@@ -90,67 +94,27 @@ if (productInLocalStorage === null){
 
 
   //modifier les quantités
-  /*let quantityInputs = document.getElementsByClassName("itemQuantity")
-  //console.log(quantityInputs);
-  for (let i = 0; i < quantityInputs.length; i++) {
-    let value = quantityInputs[i]
-    value.addEventListener('click', quantityChanged)
-  }
-  function quantityChanged(event) {
-    let value= event.target
-    if (isNaN(value) || value <= 0) {
-      value = 1
-    }
-    console.log(quantityInputs);
-  }
-  document.getElementsByClassName("itemQuantity")[0].addEventListener('change', quantityChanged)
+  updateQuantityInCart();
 
-  let newPrice = document.getElementsByClassName(".cart__item__content")
-  console.log(newPrice);*/
-  let quantitiesInput = document.querySelectorAll(".itemQuantity");
-  console.log(quantitiesInput);
- /* for (let i = 0; i < newQuantity.length; i++) {
-    newQuantity[i].addEventListener("change", (event) => {
-      event.preventDefault();
-      let updatedQuantity = productInLocalStorage[i]._id
-      console.log(updatedQuantity);
-    })
-  }*/
+  // Je récupere tout les noeux itemQuantity
+    // Pour chaque noeud
+        // je change la quantité de productInLocalStorage par la valeur de la quantité changé
+        // Je remets productInLocalStorage dans le localstorage
+  function updateQuantityInCart() {
+    let quantitiesInput = document.querySelectorAll(".itemQuantity");
+    quantitiesInput.forEach((quantityInput, i) => {
+      this.addEventListener("change", (event) => {
+        event.preventDefault();
+        productInLocalStorage[i].quantity = quantityInput.value;
+        localStorage.setItem("product", JSON.stringify(productInLocalStorage));
+        //recharger la page
+        window.location.href = "cart.html";
+      });
+    });
+   }
 
-  quantitiesInput.forEach(quantityInput => {
-    this.addEventListener("change",(event)=>{
-      event.preventDefault();
-      console.log(quantityInput.value);
-     console.log(quantityInput.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id'));
-     //let _idInput = quantityInput.parentNode.parentNode.parentNode.parentNode.getAttribute('data-id');
-     let quantityNInput=quantityInput.value;
-     //console.log(quantityNInput);
-     let productInLocalStorage = [];
-     productInLocalStorage.splice(8,1,quantityNInput);
-     console.log(productInLocalStorage);
-      // for (let i = 0; i < quantitiesInput.length; i++) {
-      //   quantitiesInput[i].addEventListener("click", (event) => {
-      //     event.preventDefault();
-      //     //let freshQuantity = element.value;
-      //     //console.log(freshQuantity);
-      //     let updatedQuantity = productInLocalStorage[i]._id;
-      //     console.log(updatedQuantity);
-      //     productInLocalStorage = productInLocalStorage
-      //     let quantity = quantityInput.value
-      //     console.log(quantity);
-      //     //let quantityChanged = updatedQuantity.replace(updatedQuantity, 'element.value');
-      //     //console.log(quantityChanged);
-      //     //productInLocalStorage = productInLocalStorage.push(updatedQuantity.freshQuantity);
-      //     //console.log(productInLocalStorage);
-      //     localStorage.setItem("product",JSON.stringify(productInLocalStorage));
-      //   })
-      // }
-      //renvoyer la nouvelle quantité dans le localStorage
-      //recharger la page 
-      //window.location.href = "cart.html";
-    }) 
-  });
-  // récuper l'id des produits séléctionnées
+
+   // récuper l'id des produits séléctionnées
   let products = [];
 		for (product of productInLocalStorage) {
 			products.push(product._id);
@@ -186,7 +150,7 @@ if (productInLocalStorage === null){
     firstNameErrorMsg.innerHTML = ''
   }
   else {
-    alert(firstNameErrorMsg.innerHTML = 'Prénom non valide')
+    (firstNameErrorMsg.innerHTML = 'Prénom non valide')
   }
  }
 
@@ -201,7 +165,7 @@ if (productInLocalStorage === null){
     lastNameErrorMsg.innerHTML = ''
   }
   else {
-    alert(lastNameErrorMsg.innerHTML = 'Nom non valide')
+    (lastNameErrorMsg.innerHTML = 'Nom non valide')
   }
  }
 
@@ -216,7 +180,7 @@ if (productInLocalStorage === null){
     addressErrorMsg.innerHTML = ''
   }
   else {
-    alert(addressErrorMsg.innerHTML = 'Adresse non valide')
+    (addressErrorMsg.innerHTML = 'Adresse non valide')
   }
  }
 
@@ -231,7 +195,7 @@ if (productInLocalStorage === null){
     cityErrorMsg.innerHTML = ''
   }
   else {
-    alert(cityErrorMsg.innerHTML = 'Nom de la ville non valide')
+    (cityErrorMsg.innerHTML = 'Nom de la ville non valide')
   }
  }
 
@@ -247,7 +211,7 @@ if (productInLocalStorage === null){
   }
   else {
     //emailErrorMsg.innerHTML = 'Email non valide'
-    alert(emailErrorMsg.innerHTML = 'Email non valide')
+    (emailErrorMsg.innerHTML = 'Email non valide')
   }
  }
 
@@ -298,6 +262,3 @@ if (productInLocalStorage === null){
 }); 
 
 };
-/*  newQuantity.addEventListener("click",(event)=>{
-    event.preventDefault();
-  })*/
