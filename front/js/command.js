@@ -123,9 +123,21 @@ if (productInLocalStorage === null) {
   // Je récupere tout les noeux itemQuantity
   // je change la quantité de productInLocalStorage par la valeur de la quantité changé
   // Je remets productInLocalStorage dans le localstorage
-  function updatedQuantity() {
-
-    let quantitiesInput = document.querySelectorAll(".itemQuantity");
+  let quantitiesInput = document.querySelectorAll(".itemQuantity");
+  for (let m = 0; m < quantitiesInput.length; m++) {
+    quantitiesInput[m].addEventListener("change", (event) => {
+      event.preventDefault();
+      let inputModification = productInLocalStorage[m].quantity;
+      let inputModificationValue = quantitiesInput[m].value;
+      const resultQuantity = productInLocalStorage.find(el => el.inputModificationValue !== inputModification);
+      resultQuantity.quantity = inputModificationValue;
+      productInLocalStorage[m].quantity = resultQuantity.quantity;
+      localStorage.setItem("product", JSON.stringify(productInLocalStorage));
+      //recharger la page
+      location.reload();
+    })
+  }
+  /*  let quantitiesInput = document.querySelectorAll(".itemQuantity");
       quantitiesInput.forEach((quantityInput, m) => {
       this.addEventListener("change", (e) => {
         e.preventDefault();
@@ -134,9 +146,8 @@ if (productInLocalStorage === null) {
         //recharger la page
         location.reload();
       });
-    });
-  }
-  updatedQuantity();
+    });*/
+
   // écouter le bouton supprimer
   let deleteItemButton = document.querySelectorAll(".deleteItem");
   //console.log(deleteItemButton);
