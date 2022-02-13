@@ -7,6 +7,7 @@ fetch('http://localhost:3000/api/products/' + productID)
   .then(data => data.json())
   .then(productID => {
     let choiceElementName = ` 
+    <article>
 <div class="item__img">
 <img src="${productID.imageUrl}" alt="${productID.altTxt}">
 </div>
@@ -49,7 +50,8 @@ fetch('http://localhost:3000/api/products/' + productID)
   <button id="addToCart">Ajouter au panier</button>
 </div>
 
-</div> `
+</div> 
+</article>`
     let choiceAllElement = choiceElementName + choiceElementColor + choiceElementQuantity;
     document.querySelector(".item").innerHTML = choiceAllElement;
 
