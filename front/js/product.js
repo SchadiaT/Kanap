@@ -1,5 +1,4 @@
 // Récuperer le produit via l'api fetch grâce à l'url de l'api et l'id du produit
-
 let params = new URLSearchParams(window.location.search);
 let productID = params.get("id");
 
@@ -72,7 +71,7 @@ fetch('http://localhost:3000/api/products/' + productID)
       let productSelection = {
         _id: productID._id,
         name: productID.name,
-        price: productID.price * productQuantity.value,
+        //price: productID.price * productQuantity.value,
         color: selectColor.value,
         description: productID.description,
         image: productID.imageUrl,
