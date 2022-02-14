@@ -70,7 +70,12 @@ fetch('http://localhost:3000/api/products/' + productID)
     addToCartButton.addEventListener("click", (event) => {
       event.preventDefault();
 
-
+      /*if (selectColor.value=" ")
+        alert('Couleur non renseigné')
+      else {
+        
+      
+      console.log(selectColor.value);*/
       // Les données qui doivent être enrégistés dans le panier
       let productSelection = {
         _id: productID._id,
@@ -94,12 +99,11 @@ fetch('http://localhost:3000/api/products/' + productID)
       // fonction fenetre de validation
       const popupValidation = () => {
         if (window.confirm(`${productID.name} a bien été ajouter au panier
-  Consulter le panier OK`)) {
+         Consulter le panier OK`)) {
           window.location.href = "cart.html";
         }
-      }
-      if (productInLocalStorage.quantity > 0 && productInLocalStorage.color !== undefined) {
-        console.log(productInLocalStorage.color);
+      } 
+      
         //Importation dans le localStorage
         // si le panier contient déjà un produit 
         if (productInLocalStorage) {
@@ -125,9 +129,7 @@ fetch('http://localhost:3000/api/products/' + productID)
           localStorage.setItem("product", JSON.stringify(productInLocalStorage))
           popupValidation();
         }
-      } else {
-        alert("Couleur ou quantité invalide");
-      }
-    });
+      } 
+    );
   })
   ;
